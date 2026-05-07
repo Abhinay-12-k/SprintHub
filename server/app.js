@@ -59,6 +59,16 @@ app.use('/api/tasks', require('./routes/taskRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/activity', require('./routes/activityRoutes'));
 
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({ 
+    success: true, 
+    message: 'SprintHub Strategic API is active and operational',
+    version: '1.0.0',
+    status: 'High Performance'
+  });
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({ success: true, message: 'SprintHub API is running', timestamp: new Date() });
