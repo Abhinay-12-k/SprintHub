@@ -10,6 +10,12 @@ const { errorHandler } = require('./middleware/errorMiddleware');
 // Connect to MongoDB
 connectDB();
 
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  'https://sprinthub-1.onrender.com',
+  'http://localhost:3000'
+].filter(Boolean);
+
 const app = express();
 const server = http.createServer(app);
 
@@ -26,12 +32,6 @@ const io = new Server(server, {
 app.set('io', io);
 
 // ─── Middleware ────────────────────────────────────────────────────────────────
-
-const allowedOrigins = [
-  process.env.CLIENT_URL,
-  'https://sprinthub-1.onrender.com',
-  'http://localhost:3000'
-].filter(Boolean);
 
 app.use(cors({
   origin: function (origin, callback) {
