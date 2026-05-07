@@ -7,7 +7,7 @@ import axios from 'axios';
  * - Response interceptor handles 401s globally (token expiry)
  */
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
   headers: { 'Content-Type': 'application/json' },
 });
 
