@@ -16,7 +16,7 @@ const server = http.createServer(app);
 // Socket.IO for real-time updates
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    origin: allowedOrigins,
     methods: ['GET', 'POST'],
     credentials: true,
   },
@@ -27,8 +27,20 @@ app.set('io', io);
 
 // ─── Middleware ────────────────────────────────────────────────────────────────
 
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  'https://sprinthub-1.onrender.com',
+  'http://localhost:3000'
+].filter(Boolean);
+
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 }));
 
